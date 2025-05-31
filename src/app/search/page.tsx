@@ -1,11 +1,12 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Header } from '@/components/layout/Header';
 import { MainContent } from '@/components/layout/MainContent';
 import { Footer } from '@/components/layout/Footer';
 
-export default function SearchPage() {
+function SearchContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
   const mode = searchParams.get('mode') || 'deepSearch';
@@ -49,5 +50,13 @@ export default function SearchPage() {
       
       <Footer />
     </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-[#121212]">Loading...</div>}>
+      <SearchContent />
+    </Suspense>
   );
 } 

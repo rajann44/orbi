@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { OrbiLogo } from '@/components/icons/OrbiLogo';
 
-export default function AuthPage() {
+function AuthContent() {
   const searchParams = useSearchParams();
   const [isSignIn, setIsSignIn] = useState(true);
   const [email, setEmail] = useState('');
@@ -169,5 +169,13 @@ export default function AuthPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AuthPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-[#121212]">Loading...</div>}>
+      <AuthContent />
+    </Suspense>
   );
 } 
