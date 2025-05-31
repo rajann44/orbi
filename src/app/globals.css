@@ -1,26 +1,39 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background-primary: #121212;
+  --background-secondary: #1E1E1E;
+  --background-input: #2A2A2A;
+  --text-primary: #E0E0E0;
+  --text-secondary: #B0B0B0;
+  --accent-primary: #4A90E2;
+  --border-radius-small: 8px;
+  --border-radius-medium: 16px;
+  --border-radius-large: 24px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    @apply bg-background-primary text-text-primary min-h-screen;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .btn-primary {
+    @apply bg-background-input text-text-primary px-4 py-2 rounded-lg hover:bg-background-secondary transition-colors;
+  }
+  
+  .btn-secondary {
+    @apply bg-transparent text-text-primary px-4 py-2 rounded-lg hover:bg-background-input transition-colors;
+  }
+
+  .input-bar {
+    @apply bg-background-input rounded-large p-4 flex items-center gap-4 w-full max-w-3xl;
+  }
+
+  .action-chip {
+    @apply bg-background-input rounded-medium px-4 py-2 flex items-center gap-2 hover:bg-background-secondary transition-colors;
+  }
 }

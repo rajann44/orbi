@@ -5,8 +5,14 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Grok - AI Assistant",
-  description: "Your intelligent AI assistant powered by Grok",
+  title: "Orbi - AI Assistant",
+  description: "Your intelligent AI assistant powered by Orbi",
+  icons: [
+    {
+      rel: 'icon',
+      url: '/favicon.ico',
+    },
+  ],
 };
 
 export default function RootLayout({
