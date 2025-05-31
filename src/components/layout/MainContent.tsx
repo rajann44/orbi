@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { OrbiLogo } from '../icons/OrbiLogo';
 import { IconButton } from '../ui/IconButton';
 import { DropdownMenu } from '../ui/DropdownMenu';
@@ -76,7 +77,8 @@ export const MainContent = () => {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [selectedSearchMode, setSelectedSearchMode] = useState('deepSearch');
   const [isSearchDropdownOpen, setIsSearchDropdownOpen] = useState(false);
-  const searchButtonRef = useRef<HTMLButtonElement>(null);
+  const searchButtonRef = useRef<HTMLButtonElement>(null!);
+  const router = useRouter();
 
   const handleSearchButtonClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -84,12 +86,20 @@ export const MainContent = () => {
     setIsSearchDropdownOpen(!isSearchDropdownOpen);
   };
 
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (query.trim()) {
+      router.push(`/search?q=${encodeURIComponent(query.trim())}&mode=${selectedSearchMode}`);
+    }
+  };
+
   return (
     <main className="flex-1 flex flex-col items-center justify-center px-4 pt-16">
       <div className="flex flex-col items-center gap-8 w-full max-w-4xl">
         <OrbiLogo size="lg" className="mb-8" showWordmark={true} />
         
-        <div 
+        <form 
+          onSubmit={handleSearch}
           className={`
             relative bg-[#2D2D2D] rounded-[24px] p-3.5
             flex items-center gap-3 w-full max-w-3xl
@@ -160,15 +170,18 @@ export const MainContent = () => {
               />
             </div>
             
-            <button className="
-              bg-[#252525] text-[#E0E0E0] 
-              px-2.5 py-1.5 rounded-lg
-              flex items-center gap-1.5
-              text-sm font-medium
-              hover:bg-[#2A2A2A] active:bg-[#202020]
-              transition-all duration-200
-              focus:outline-none focus:ring-2 focus:ring-[#4A90E2]/20
-            ">
+            <button 
+              type="submit"
+              className="
+                bg-[#252525] text-[#E0E0E0] 
+                px-2.5 py-1.5 rounded-lg
+                flex items-center gap-1.5
+                text-sm font-medium
+                hover:bg-[#2A2A2A] active:bg-[#202020]
+                transition-all duration-200
+                focus:outline-none focus:ring-2 focus:ring-[#4A90E2]/20
+              "
+            >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
               </svg>
@@ -200,7 +213,7 @@ export const MainContent = () => {
               className="text-[#B0B0B0] hover:text-[#E0E0E0] transition-colors"
             />
           </div>
-        </div>
+        </form>
         
         <div className="flex flex-wrap justify-center gap-2">
           {actionChips.map((chip) => (
